@@ -142,17 +142,17 @@ func wsReader(client *Client) {
 	for {
 		_, data, err := client.socket.ReadMessage()
 		if err != nil {
-			for i, c := range client.server.Clients {
+			for i, c := range client.Server.Clients {
 				if c == client {
-					client.server.Clients = append(client.server.Clients[:i], client.server.Clients[i+1:]...)
+					client.Server.Clients = append(client.Server.Clients[:i], client.Server.Clients[i+1:]...)
 					break
 				}
 			}
 
 			client.socket.Close()
 
-			if client.server.disconnectedHandler != nil {
-				client.server.disconnectedHandler(client)
+			if client.Server.disconnectedHandler != nil {
+				client.Server.disconnectedHandler(client)
 			}
 			break
 		}
@@ -161,8 +161,8 @@ func wsReader(client *Client) {
 
 		err = json.Unmarshal(data, &result)
 		if err != nil {
-			if client.server.errHandler != nil {
-				client.server.errHandler(err)
+			if client.Server.errHandler != nil {
+				client.Server.errHandler(err)
 			}
 			continue
 		}

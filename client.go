@@ -10,13 +10,13 @@ type EventListener func(client *Client, data map[string]interface{}) interface{}
 type Client struct {
 	Id     uuid.UUID
 	Events map[string]EventListener
-	server *IgoServer
+	Server *IgoServer
 	socket *ws.Conn
 }
 
 func createClient(server *IgoServer, socket *ws.Conn) *Client {
 	return &Client{
-		server: server,
+		Server: server,
 		socket: socket,
 		Id:     uuid.New(),
 		Events: make(map[string]EventListener),
