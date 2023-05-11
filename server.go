@@ -134,7 +134,7 @@ func (s *IgoServer) Handle() IgoServerHandle {
 			"clientId": client.Id,
 		})
 
-		go wsReader(client)
+		wsReader(client)
 	}
 }
 
