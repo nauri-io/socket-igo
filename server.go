@@ -130,6 +130,10 @@ func (s *IgoServer) Handle() IgoServerHandle {
 			s.connectedHandler(client)
 		}
 
+		client.Emit("#handshake", map[string]interface{}{
+			"clientId": client.Id,
+		})
+
 		go wsReader(client)
 	}
 }

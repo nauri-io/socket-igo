@@ -25,20 +25,22 @@ func createClient(server *IgoServer, socket *ws.Conn) *Client {
 
 func handleClientData(client *Client, data map[string]interface{}) {
 	eventName := data["event"].(string)
-
-	isAck := false
+	eventData := data["data"].(map[string]interface{})
 	ackId := ""
-	if eventName[:5] == "@ack:" {
-		isAck = true
-		ackId = eventName[5:]
-		eventName = data["event"].(string)
+
+	if data["ackId"] != nil {
+		ackId = data["ackId"].(string)
 	}
 
 	if listener, ok := client.Events[eventName]; ok {
-		response := listener(client, data)
+		result := listener(client, eventData)
 
-		if isAck {
-			client.Emit("@ack:"+ackId, response)
+		if ackId != "" {
+			response := map[string]interface{}{
+				"result": result,
+			}
+
+			client.Emit(eventName+"@ack:"+ackId, response)
 		}
 	}
 }

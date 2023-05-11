@@ -1,0 +1,23 @@
+{
+  "name": "sock.igo-client",
+  "version": "1.0.0",
+  "description": "The socket.igo client for browser",
+  "main": "dist/lib.js",
+  "types": "dist/lib.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "socket",
+    "golang",
+    "websocket",
+    "client",
+    "browser"
+  ],
+  "author": "DasDarki",
+  "license": "GPLv3-Only",
+  "devDependencies": {
+    "typescript": "^5.0.4"
+  }
+}
