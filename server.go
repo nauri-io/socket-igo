@@ -26,6 +26,7 @@ type IgoServer struct {
 type IgoServerOptions struct {
 	ReadBufferSize  int
 	WriteBufferSize int
+	CheckOrigin     func(r *http.Request) bool
 }
 
 type IgoServerHandle func(w http.ResponseWriter, r *http.Request)
@@ -35,6 +36,7 @@ func CreateIgoServer(options *IgoServerOptions) *IgoServer {
 		options = &IgoServerOptions{
 			ReadBufferSize:  1024,
 			WriteBufferSize: 1024,
+			CheckOrigin: nil,
 		}
 	}
 
@@ -44,6 +46,7 @@ func CreateIgoServer(options *IgoServerOptions) *IgoServer {
 		upgrader: &ws.Upgrader{
 			ReadBufferSize:  options.ReadBufferSize,
 			WriteBufferSize: options.WriteBufferSize,
+			CheckOrigin:     options.CheckOrigin,
 		},
 		preConnectHandler:   nil,
 		connectedHandler:    nil,
